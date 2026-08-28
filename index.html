@@ -114,10 +114,13 @@ function getReturnUrl(){
   return 'https://wearelvo.com/';
 }
 
+// Consent is now passed forward as a one-time query param instead of a
+// persistent cookie, so the warning page is shown again on every fresh
+// visit to wearelvo.com rather than being remembered for a year.
 function setConsent(value){
-  const oneYear = 60*60*24*365;
-  document.cookie = 'lvo_motion_consent=' + value + '; domain=.wearelvo.com; path=/; max-age=' + oneYear + '; SameSite=Lax';
-  window.location.href = getReturnUrl();
+  const returnUrl = getReturnUrl();
+  const separator = returnUrl.includes('?') ? '&' : '?';
+  window.location.href = returnUrl + separator + 'motion=' + value;
 }
 
 document.getElementById('accept-btn').addEventListener('click', ()=> setConsent('accepted'));
