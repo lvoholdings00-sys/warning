@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+<title>Motion Sickness Warning · LVO Holdings</title>
+<meta name="description" content="LVO Holdings — motion sensitivity notice.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--white:#fff;--dim:rgba(255,255,255,0.55);--dimmer:rgba(255,255,255,0.25);--red-hi:#CC2020;--chrome:#C8C8D0;}
+html,body{width:100%;height:100%;background:#000;}
+body{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  color:var(--white);
+  padding:2rem;
+}
+.panel{
+  max-width:620px;width:100%;
+  text-align:center;
+  padding:3rem 2.5rem;
+  border:0.5px solid rgba(139,0,0,0.3);
+  background:rgba(255,255,255,0.015);
+}
+.mark{
+  font-family:'Cinzel',serif;font-weight:900;
+  font-size:1.6rem;letter-spacing:.3em;color:var(--white);
+  margin-bottom:1.6rem;
+}
+.rule{
+  width:1px;height:44px;
+  background:linear-gradient(to bottom,transparent,var(--red-hi),transparent);
+  margin:0 auto 1.8rem;
+}
+.eyebrow{
+  font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.4em;
+  color:var(--red-hi);text-transform:uppercase;margin-bottom:1.2rem;
+}
+h1{
+  font-family:'IM Fell English',Georgia,serif;font-style:italic;font-weight:400;
+  font-size:clamp(26px,5vw,38px);color:var(--white);
+  margin-bottom:1.6rem;line-height:1.2;
+}
+p{
+  font-size:clamp(.95rem,2vw,1.05rem);font-weight:300;line-height:1.85;
+  color:rgba(255,255,255,0.75);margin-bottom:1.1rem;
+}
+p:last-of-type{ margin-bottom:2.2rem; }
+.actions{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+}
+button{
+  font-family:'Cinzel',serif;font-size:.68rem;font-weight:600;
+  letter-spacing:.3em;text-transform:uppercase;
+  padding:14px 30px;
+  border:0.5px solid rgba(255,255,255,0.35);
+  background:rgba(0,0,0,0.3);color:var(--white);
+  cursor:pointer;transition:border-color .3s,background .3s,color .3s;
+}
+button#accept-btn:hover{ border-color:var(--red-hi); background:rgba(204,32,32,0.12); }
+button#decline-btn{ color:var(--dim); }
+button#decline-btn:hover{ border-color:var(--dimmer); background:rgba(255,255,255,0.05); color:var(--white); }
+.footnote{
+  margin-top:1.8rem;
+  font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.3em;
+  color:rgba(255,255,255,0.3);text-transform:uppercase;
+}
+.legal-links{
+  margin-top:1.4rem;
+  display:flex;gap:1.4rem;justify-content:center;
+}
+.legal-links a{
+  font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.4);
+  text-decoration:none;border-bottom:0.5px solid rgba(139,0,0,0.3);
+  padding-bottom:2px;transition:color .3s,border-color .3s;
+}
+.legal-links a:hover{ color:var(--white); border-color:var(--red-hi); }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <div class="mark">LVO</div>
+  <div class="rule"></div>
+  <div class="eyebrow">Motion Sensitivity Notice</div>
+  <h1>Before you continue</h1>
+  <p>This site uses animated backgrounds, fluid distortion effects, and blended photo transitions throughout. If you're sensitive to motion, flashing, or parallax effects, these may cause discomfort.</p>
+  <p>You're welcome to continue either way — choose below whether to view the site with its full imagery and effects, or a reduced version with images turned off.</p>
+  <div class="actions">
+    <button id="accept-btn">Accept &amp; View With Images</button>
+    <button id="decline-btn">Continue Without Images</button>
+  </div>
+  <div class="footnote">LVO Holdings · Legion V. Omni-Operations</div>
+  <div class="legal-links">
+    <a href="https://privacy.wearelvo.com">Privacy Policy</a>
+    <a href="https://tos.wearelvo.com">Terms of Service</a>
+  </div>
+</div>
+
+<script>
+function getReturnUrl(){
+  const params = new URLSearchParams(window.location.search);
+  const ret = params.get('return');
+  if(ret){
+    try {
+      const u = new URL(ret);
+      if(/(^|\.)wearelvo\.com$/.test(u.hostname)) return u.href;
+    } catch(e){}
+  }
+  return 'https://wearelvo.com/';
+}
+
+function setConsent(value){
+  const oneYear = 60*60*24*365;
+  document.cookie = 'lvo_motion_consent=' + value + '; domain=.wearelvo.com; path=/; max-age=' + oneYear + '; SameSite=Lax';
+  window.location.href = getReturnUrl();
+}
+
+document.getElementById('accept-btn').addEventListener('click', ()=> setConsent('accepted'));
+document.getElementById('decline-btn').addEventListener('click', ()=> setConsent('denied'));
+</script>
+</body>
+</html>
